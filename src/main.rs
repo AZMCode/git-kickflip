@@ -14,9 +14,9 @@ enum KickflipError {
 
 #[derive(StructOpt, Debug)]
 struct Args {
-    #[structopt(short,long,default_value="4")]
+    #[structopt(short="s",long,default_value="16")]
     levels_start: u8,
-    #[structopt(short,long,default_value="4")]
+    #[structopt(short="m",long,default_value="32")]
     levels_middle: u8,
     #[structopt(short,long)]
     branch: Option<String>
@@ -41,7 +41,7 @@ fn branch_off<T: rand::Rng>(from: &str, to: &str, rng: &mut T) -> Result<(),Erro
     execute::command!("git checkout").arg(from).spawn()?.wait()?.exit_ok()?;
     execute::command!("git checkout -b").arg(to).spawn()?.wait()?.exit_ok()?;
     gen_kickflip_file(rng)?;
-    execute::command!("git add -A").spawn()?.wait()?.exit_ok()?;
+    execute::command!("git add .git-kickflip").spawn()?.wait()?.exit_ok()?;
     execute::command!("git commit -m \"Kickflip!\"").spawn()?.wait()?.exit_ok()?;
     Ok(())
 }
@@ -112,7 +112,7 @@ fn main() -> Result<(),Error> {
     let last_branch = branches.pop().ok_or(KickflipError::UnexpectedEmptyBranchVec)?;
     merge_into(&last_branch,&current_branch)?;
     rm_kickflip_file()?;
-    execute::command!("git add -A").spawn()?.wait()?.exit_ok()?;
+    execute::command!("git add .git-kickflip").spawn()?.wait()?.exit_ok()?;
     execute::command!("git commit -m \"End of Kickflip\"").spawn()?.wait()?.exit_ok()?;
     eprintln!("Done!");
     Ok(())

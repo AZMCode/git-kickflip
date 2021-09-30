@@ -1,7 +1,10 @@
 [package]
 name = "git-kickflip"
+description = "Do some crazy stuff to your git branch"
 version = "0.1.0"
 edition = "2018"
+license = "unlicense"
+repository = "https://github.com/AZMCode/git-kickflip"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
